@@ -123,7 +123,11 @@ public:
 
 	//get a sorted list of all imgs in a dir
 	static vector<string> getImagesAtDirectory(const string & path, bool useDxtCompression);
-
+    
+    // --- REVERSE ---
+    void setPlayReverse(bool reverse);
+    
+    
 protected:
 
 	static vector<string> getSupportedImageTypes(){ return{"tga", "gif", "jpeg", "jpg", "jp2", "bmp", "png", "tif", "tiff"};}

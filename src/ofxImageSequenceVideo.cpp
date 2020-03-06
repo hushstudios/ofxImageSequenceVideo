@@ -359,7 +359,7 @@ void ofxImageSequenceVideo::setPlaybackFramerate(float framerate){
 void ofxImageSequenceVideo::handleLooping(bool triggerEvents){
 
 	if(shouldLoop){ //loop movie
-		if(currentFrame >= numFrames){
+		if(currentFrame >= numFrames && currentFrame > 0){
 			
             if(reverse)
             {
@@ -369,14 +369,14 @@ void ofxImageSequenceVideo::handleLooping(bool triggerEvents){
             else
             {
                 currentFrame = 0;
+                
+                if(triggerEvents){
+                    EventInfo info;
+                    info.who = this;
+                    ofNotifyEvent(eventMovieLooped, info, this);
+                }
             }
-            
-            
-			if(triggerEvents){
-				EventInfo info;
-				info.who = this;
-				ofNotifyEvent(eventMovieLooped, info, this);
-			}
+        
 		}
 	}else{ //movie stops at last frame
 		if(currentFrame >= numFrames){
@@ -428,6 +428,11 @@ void ofxImageSequenceVideo::handleThreadSpawn(){
     
     if(playback && currentFrame < 0){
         currentFrame = 0;
+        
+        EventInfo info;
+        info.who = this;
+        ofNotifyEvent(eventMovieLooped, info, this);
+        
         reversing = false;
     }
     
@@ -955,5 +960,8 @@ std::string ofxImageSequenceVideo::secondsToHumanReadable(float secs, int decima
 	return ret;
 }
 
+void ofxImageSequenceVideo::setPlayReverse(bool reverse){
+    this->reverse = reverse;
+}
 
 #undef CURRENT_FRAME_ALT
