@@ -719,12 +719,19 @@ void ofxImageSequenceVideo::advanceFrameInternal(){
 	if(!loaded) return;
 
 	if(numThreads > 0){ //ASYNC
-		auto & curFrame = CURRENT_FRAME_ALT[currentFrame];
-		bool loaded = (curFrame.pixState == PixelState::THREAD_FINISHED_LOADING || curFrame.pixState == PixelState::LOADED);
-		if(loaded && (curFrame.pixels.isAllocated() || curFrame.compressedPixels.size() > 0)){ //unload old pixels
-			curFrame.pixState = PixelState::NOT_LOADED;
-			curFrame.pixels.clear();
-			curFrame.compressedPixels = ofxDXT::Data(); //clear pixels data
+		int numCheck = getNumFrames() -1;
+		if (currentFrame <= numCheck) {
+
+			auto& curFrame = CURRENT_FRAME_ALT[currentFrame];
+			bool loaded = (curFrame.pixState == PixelState::THREAD_FINISHED_LOADING || curFrame.pixState == PixelState::LOADED);
+			if (loaded && (curFrame.pixels.isAllocated() || curFrame.compressedPixels.size() > 0)) { //unload old pixels
+				curFrame.pixState = PixelState::NOT_LOADED;
+				curFrame.pixels.clear();
+				curFrame.compressedPixels = ofxDXT::Data(); //clear pixels data
+			}
+		}
+		else if(!shouldLoop) {
+			currentFrame = 0;
 		}
 	}
 
@@ -738,7 +745,7 @@ void ofxImageSequenceVideo::advanceFrameInternal(){
     }
 	
 
-	if(!shouldLoop && currentFrame == numFrames -1){
+	if(!shouldLoop && currentFrame == (numFrames -1)){
 		EventInfo info;
 		info.who = this;
         playback = false;
