@@ -720,7 +720,7 @@ void ofxImageSequenceVideo::advanceFrameInternal(){
 
 	if(numThreads > 0){ //ASYNC
 		int numCheck = getNumFrames() -1;
-		if (currentFrame <= numCheck) {
+		if (currentFrame <= numCheck && currentFrame >= 0) {
 
 			auto& curFrame = CURRENT_FRAME_ALT[currentFrame];
 			bool loaded = (curFrame.pixState == PixelState::THREAD_FINISHED_LOADING || curFrame.pixState == PixelState::LOADED);
