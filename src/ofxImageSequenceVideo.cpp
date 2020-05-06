@@ -359,7 +359,7 @@ void ofxImageSequenceVideo::setPlaybackFramerate(float framerate){
 void ofxImageSequenceVideo::handleLooping(bool triggerEvents){
 
 	if(shouldLoop){ //loop movie
-		if(currentFrame >= numFrames && currentFrame > 0){
+		if(currentFrame >= numFrames && currentFrame >= 0){
 			
             if(reverse)
             {
