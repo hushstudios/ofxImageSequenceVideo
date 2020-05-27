@@ -228,7 +228,10 @@ size_t ofxImageSequenceVideo::getEstimatdVramUse(){
 
 void ofxImageSequenceVideo::update(float dt){
 
-	if(!loaded) return;
+	if (!loaded) {
+		ofLogError("ofxImageSequenceVideo::update") << getMoviePath() << " is not loaded!";
+		return;
+	}
 
 	newData = false;
 
@@ -242,14 +245,18 @@ void ofxImageSequenceVideo::update(float dt){
 	}
 
 	//calc what frame to jump to (if any)
-	int numFramesToAdvance = 0;
+	int numFramesToAdvance = 1;
+
+	/*
 	if(frameOnScreenTime < 0.0f){
 		numFramesToAdvance = 1;
 	}else{
 		if(frameOnScreenTime >= frameDuration){
 			numFramesToAdvance = int(frameOnScreenTime / frameDuration);
+			//ofLogError() << "Advancing " << numFramesToAdvance; 
 		}
 	}
+	*/
 
 	if(numThreads > 0){ //async mode - spawn threads to load frames in the future and wait for them to be done / sync
 
