@@ -7,7 +7,7 @@
 //
 
 #include "ofxImageSequenceVideo.h"
-#include "ofxTimeMeasurements.h"
+//#include "ofxTimeMeasurements.h"
 #include "../lib/stb/stb_image.h"
 
 #if defined( TARGET_OSX ) || defined( TARGET_LINUX )
@@ -339,14 +339,14 @@ void ofxImageSequenceVideo::update(float dt){
 
 		if(texNeedsLoad && shouldLoadTexture){
 			texNeedsLoad = false;
-			TS_START_ACC("load pix GPU");
+			//TS_START_ACC("load pix GPU");
 
 			if(!useDXTCompression){
 				tex.loadData(currentPixels);
 			}else{
 				ofxDXT::loadDataIntoTexture(currentPixelsCompressed, tex);
 			}
-			TS_STOP_ACC("load pix GPU");
+			//TS_STOP_ACC("load pix GPU");
 		}
 	}
 }
